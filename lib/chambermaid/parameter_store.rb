@@ -4,15 +4,21 @@ module Chambermaid
   class ParameterStore
     def initialize(path:)
       @path = path
+      @loaded = false
     end
 
     def load!
+      @loaded = true
       fetch_ssm_params!
     end
 
     def reload!
       clear_params!
       fetch_ssm_params!
+    end
+
+    def loaded?
+      @loaded
     end
 
     def self.load!(path:)
@@ -29,10 +35,8 @@ module Chambermaid
 
     alias :to_h :params
 
-    def to_env
-      params.inject("") do |env_str, param|
-        env_str + "#{param[0]}=#{param[1]}\n"
-      end
+    def env
+      @env ||= Environment.new(params)
     end
 
     private
@@ -62,6 +66,7 @@ module Chambermaid
     end
 
     def clear_params!
+      @env = nil
       @params = nil
       @params_list = nil
     end

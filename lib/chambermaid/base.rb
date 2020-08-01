@@ -1,16 +1,19 @@
+require "chambermaid/environment"
+require "chambermaid/namespace"
 require "chambermaid/parameter_store"
 
 module Chambermaid
   module Base
     def self.extended(base)
       # Make a copy of ENV before we mess it all up
-      @@_original_env = ENV.to_h.dup
+      @@_original_env = Environment.new(ENV.to_h)
     end
 
     extend self
 
     def configure
       yield self
+      load!
     end
 
     # @todo
@@ -18,16 +21,15 @@ module Chambermaid
       raise "Namespaces must be defined" unless @namespaces
     end
 
+    # Load SSM into ENV
+    def load!
+      @namespaces.each(&:load_env!)
+    end
+
     # @todo
     def reload!
       restore!
-      @namespaces.each do |ns|
-        ns[:store].reload!
-        update_env!(
-          params: ns[:store].params,
-          overload: ns[:overload]
-        )
-      end
+      @namespaces.each(&:reload_env!)
     end
 
     # Restore ENV to its original state
@@ -43,30 +45,41 @@ module Chambermaid
     #   true  - replace any duplicate ENV keys with new params
     #   false - keep any existing duplicate ENV key values
     #
-    # @raise
+    # @raise [ArgumentError]
+    #   when `path` is not a string
+    #
+    # @example
+    #   Chambermaid.add_namespace("/my/param/namespace")
+    #
+    # @example overload duplicate ENV vars
+    #   Chambermaid.add_namespace("/my/param/namespace", overload: true)
     def add_namespace(path, overload: false)
+      raise ArgumentError.new("`path` must be a string") unless path.is_a?(String)
+      raise ArgumentError.new("`overload` must be a boolean") unless [true, false].include?(overload)
+
       @namespaces ||= []
       # raise "namespace already included in ENV" unless @namespaces[path].nil?
 
-      store = ParameterStore.load!(path: path)
-      @namespaces << { store: store, overload: overload }
-      update_env!(params: store.params, overload: overload)
+      @namespaces << Namespace.load!(path: path, overload: overload)
     end
 
-    # Inject into ENV
+    # Add all secrets from Chamber service to ENV
     #
-    # @param [Hash] params
+    # @param [String] service
     # @param [Boolean] overload
     #   true  - replace any duplicate ENV keys with new params
     #   false - keep any existing duplicate ENV key values
-    def update_env!(params:, overload:)
-      if overload
-        ENV.update(params)
-      else
-        current_env = ENV.to_h.dup
-        new_env = params.merge(current_env)
-        ENV.replace(new_env)
-      end
+    #
+    # @example
+    #   Chambermaid.add_service("my-chamber-service")
+    #
+    # @example overload duplicate ENV vars
+    #   Chambermaid.add_service("my-chamber-service", overload: true)
+    #
+    # @see {Chambermaid::Base.add_namespace}
+    def add_service(service, overload: false)
+      service = "/#{service}" unless service[0] == "/"
+      add_namespace(service)
     end
   end
 end
