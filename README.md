@@ -36,10 +36,16 @@ Chambermaid.add_namespace("/my/param/namespace")
 Chambermaid.configure do |config|
   config.add_namespace("/my/param/namespace")
 
-  # Set `overwrite_duplicates: true` to choose these params over existing
+  # Set `overload: true` to choose these params over existing
   # ones in ENV when they are merged together
-  config.add_namespace("/my/important/namespace", overwrite_duplicates: true)
+  config.add_namespace("/my/important/namespace", overload: true)
 end
+```
+
+**Restore ENV to original state**
+```ruby
+Chambermaid.restore!
+Chambermaid.reset! # alias of .restore!
 ```
 
 ## Development

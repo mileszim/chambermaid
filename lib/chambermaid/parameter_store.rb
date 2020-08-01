@@ -10,6 +10,11 @@ module Chambermaid
       fetch_ssm_params!
     end
 
+    def reload!
+      clear_params!
+      fetch_ssm_params!
+    end
+
     def self.load!(path:)
       store = new(path: path)
       store.load!
@@ -54,6 +59,11 @@ module Chambermaid
         recursive: true,
         next_token: next_token
       )
+    end
+
+    def clear_params!
+      @params = nil
+      @params_list = nil
     end
   end
 end
