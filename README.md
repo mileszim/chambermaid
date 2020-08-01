@@ -22,15 +22,23 @@ Or install it yourself as:
 
 ## Usage
 
+**Standalone**
+
+```ruby
+Chambermaid.add_namespace("/my/param/namespace")
+```
+
+**Configuration Block**
+
 ```ruby
 # config/initializers/chambermaid.rb
 
 Chambermaid.configure do |config|
   config.add_namespace("/my/param/namespace")
 
-  # Set `priority: true` to choose these params over existing
+  # Set `overwrite_duplicates: true` to choose these params over existing
   # ones in ENV when they are merged together
-  config.add_namespace("/my/important/namespace", priority: true)
+  config.add_namespace("/my/important/namespace", overwrite_duplicates: true)
 end
 ```
 
