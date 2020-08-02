@@ -11,4 +11,16 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.after(:each) do
+    [
+      Chambermaid,
+      Chambermaid::Base,
+      Chambermaid::Environment,
+      Chambermaid::Namespace,
+      Chambermaid::ParameterStore
+    ].each do |m|
+      RSpec::Mocks.space.proxy_for(m).reset
+    end
+  end
 end
