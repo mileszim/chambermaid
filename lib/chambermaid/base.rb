@@ -1,3 +1,5 @@
+require "logger"
+
 require "chambermaid/environment"
 require "chambermaid/namespace"
 require "chambermaid/parameter_store"
@@ -13,7 +15,6 @@ module Chambermaid
 
     def configure
       yield self
-      load!
     end
 
     # @todo
@@ -102,6 +103,39 @@ module Chambermaid
     def add_service(service, overload: false)
       service = "/#{service}" unless service[0] == "/"
       add_namespace(service)
+    end
+
+    # !@attribute [r] logger
+    #   @return [Logger]
+    def logger
+      @logger ||= Logger.new(STDOUT,
+        level: log_level,
+        progname: "Chambermaid"
+      )
+    end
+
+    # !@attribute [w] logger
+    #   @return [Logger]
+    def logger=(val)
+      @logger = val
+      @logger.progname = "Chambermaid"
+      logger
+    end
+
+    # !@attribute [r] log_level
+    #   @return [Symbol] (default = :info) current logger level
+    def log_level
+      return logger.level unless @logger.nil?
+      return @log_level unless @log_level.nil?
+      return :info
+    end
+
+    # !@attribute [w] log_level
+    #   @return [Symbol] (default = :info) current logger level
+    def log_level=(val = :info)
+      @logger.level = val unless @logger.nil?
+      @log_level = val
+      val
     end
 
     private

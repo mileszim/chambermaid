@@ -18,7 +18,7 @@ RSpec.configure do |config|
       Chambermaid::Base,
       Chambermaid::Environment,
       Chambermaid::Namespace,
-      Chambermaid::ParameterStore
+      Chambermaid::ParameterStore,
     ].each do |m|
       RSpec::Mocks.space.proxy_for(m).reset
     end

@@ -40,14 +40,20 @@ module Chambermaid
     end
 
     def fetch_ssm_params!
+      Chambermaid.logger.debug("fetching AWS SSM parameters from `#{@path}`")
       @param_list = []
       response = nil
       loop do
         response = fetch_ssm_param_batch!(response&.next_token)
         @param_list.concat(response.parameters)
 
-        break unless response.next_token
+        if response.next_token
+          Chambermaid.logger.debug("response.next_token found, continuing fetch")
+        else
+          break
+        end
       end
+      Chambermaid.logger.debug("fetched #{@param_list.size} parameters from `#{@path}`")
     end
 
     def fetch_ssm_param_batch!(next_token = nil)

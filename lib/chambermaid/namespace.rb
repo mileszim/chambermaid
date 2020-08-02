@@ -29,6 +29,7 @@ module Chambermaid
 
     def unload!
       @env.unload!
+      Chambermaid.logger.info("unloaded #{@env.size} params from ENV")
     end
 
     private
@@ -37,6 +38,7 @@ module Chambermaid
     def load_env!
       @env.replace(@store.params)
       @overload ? @env.overload! : @env.load!
+      Chambermaid.logger.info("loaded #{@env.size} params into ENV from `#{@path}`")
     end
   end
 end

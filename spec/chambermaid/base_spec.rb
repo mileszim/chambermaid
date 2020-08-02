@@ -98,6 +98,32 @@ RSpec.describe Chambermaid::Base do
     end
   end
 
+  context ".logger" do
+    it "should have a default Logger instance" do
+      expect(Chambermaid::Base.logger).to be_kind_of(Logger)
+    end
+
+    it "can be set to a custom logger" do
+      custom_logger = Logger.new(STDOUT)
+      expect(Chambermaid::Base.logger).to_not be(custom_logger)
+      Chambermaid::Base.logger = custom_logger
+      expect(Chambermaid::Base.logger).to be(custom_logger)
+    end
+  end
+
+  context ".log_level" do
+    it "should have a default level" do
+      expect(Chambermaid::Base.log_level).to_not be_nil
+    end
+
+    it "can be set to a custom level" do
+      Chambermaid::Base.log_level = :info
+      expect(Chambermaid::Base.log_level).to_not be(Logger::DEBUG)
+      Chambermaid::Base.log_level = :debug
+      expect(Chambermaid::Base.log_level).to be(Logger::DEBUG)
+    end
+  end
+
   # context ".load!" do
   #   it "should load each namespace" do
   #     expect(Chambermaid::Base.instance_variable_get(:@namespaces)).to receive(:each).with(&:load!)

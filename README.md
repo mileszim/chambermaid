@@ -35,13 +35,19 @@ Chambermaid.add_service("my-chamber-service")
 # config/initializers/chambermaid.rb
 
 Chambermaid.configure do |config|
+  # Load all values from SSM Namespace path
   config.add_namespace("/my/param/namespace")
+
+  # Load values from chamber-cli service
   config.add_service("my-chamber-service")
 
   # Set `overload: true` to choose these params over existing
   # ones in ENV when they are merged together
   config.add_namespace("/my/important/namespace", overload: true)
 end
+
+# Load after configuration
+Chambermaid.load!
 ```
 
 **Reload SSM into ENV**
@@ -54,6 +60,24 @@ Chambermaid.reload!
 Chambermaid.restore!
 Chambermaid.reset! # alias of .restore!
 ```
+
+**Configure Logging**
+```ruby
+Chambermaid.configure do |config|
+  # ... other config ...
+
+  # Change log level
+  config.log_level = :debug
+
+  # Set custom logger instance
+  config.logger = MyCoolLogger.new
+end
+
+# Outside of config block
+Chambermaid.log_level = :warn
+```
+
+_Note: Chambermaid.logger is set to Rails.logger automatically if including inside a rails app_
 
 ## Development
 
