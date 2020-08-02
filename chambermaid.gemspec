@@ -28,4 +28,6 @@ Gem::Specification.new do |spec|
 
   # Gems
   spec.add_dependency("aws-sdk-ssm", "~> 1.85")
+  spec.add_development_dependency("rspec", "~> 3.0")
+  spec.add_development_dependency("rake", "~> 12.0")
 end

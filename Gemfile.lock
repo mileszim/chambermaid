@@ -1,14 +1,14 @@
 PATH
   remote: .
   specs:
-    chambermaid (0.3.1)
+    chambermaid (0.3.2)
       aws-sdk-ssm (~> 1.85)
 
 GEM
   remote: https://rubygems.org/
   specs:
     aws-eventstream (1.1.0)
-    aws-partitions (1.348.0)
+    aws-partitions (1.349.0)
     aws-sdk-core (3.104.3)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
