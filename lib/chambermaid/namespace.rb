@@ -5,28 +5,38 @@ module Chambermaid
     def initialize(path:, overload: false)
       @path = path
       @overload = overload
+
       @store = ParameterStore.new(path: path)
+      @env = Environment.new({})
     end
 
-    def self.load!(path:, overload:)
+    def self.load!(path:, overload: false)
       namespace = new(path: path, overload: overload)
-      namespace.load_env!
+      namespace.load!
       namespace
     end
 
-    # Inject into ENV
-    def load_env!
-      load_store! unless @store.loaded?
-      @overload ? @store.env.overload! : @store.env.load!
+    def load!
+      @store.load!
+      load_env!
     end
 
-    def reload_env!
+    def reload!
+      @env.unload!
       @store.reload!
       load_env!
     end
 
-    def load_store!
-      @store.load!
+    def unload!
+      @env.unload!
+    end
+
+    private
+
+    # Inject into ENV
+    def load_env!
+      @env.replace(@store.params)
+      @overload ? @env.overload! : @env.load!
     end
   end
 end

@@ -26,6 +26,7 @@ Or install it yourself as:
 
 ```ruby
 Chambermaid.add_namespace("/my/param/namespace")
+Chambermaid.add_service("my-chamber-service")
 ```
 
 **Configuration Block**
@@ -35,11 +36,17 @@ Chambermaid.add_namespace("/my/param/namespace")
 
 Chambermaid.configure do |config|
   config.add_namespace("/my/param/namespace")
+  config.add_service("my-chamber-service")
 
   # Set `overload: true` to choose these params over existing
   # ones in ENV when they are merged together
   config.add_namespace("/my/important/namespace", overload: true)
 end
+```
+
+**Reload SSM into ENV**
+```ruby
+Chambermaid.reload!
 ```
 
 **Restore ENV to original state**

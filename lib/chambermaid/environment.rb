@@ -1,22 +1,26 @@
 module Chambermaid
-  class Environment
+  class Environment < Hash
     attr_reader :params
 
     # Create new Chambermaid::Environment
     #
     # @param [Hash] params
     #
+    # @raise [ArgumentError]
+    #   if params is not type Hash
+    #
     # @return [Chambermaid::Environment]
     def initialize(params)
-      raise ArgumentError.new("params must be hash") unless params.respond_to?(:to_h)
-      @params = format_env(params.to_h.dup).freeze
+      validate_params!(params)
+      stash_current_env!
+      update(format_env(params))
     end
 
     # Generate a dotenv (.env) compatible string
     #
     # @return [String] dotenv compatible string
     def to_dotenv
-      @params.inject("") do |env_str, param|
+      to_h.inject("") do |env_str, param|
         env_str + "#{param[0]}=#{param[1]}\n"
       end
     end
@@ -30,29 +34,35 @@ module Chambermaid
       end
     end
 
-    # @alias {#params}
-    #
-    # @return [Hash]
-    def to_h
-      @params
-    end
-
     # Inject into ENV without overwriting duplicates
     def load!
-      current_env = ENV.to_h.dup
-      new_env = @params.dup.merge(current_env)
-      ENV.replace(new_env)
+      each { |k, v| ENV[k] ||= v }
     end
 
     # Inject into ENV and overwrite duplicates
     def overload!
-      ENV.update(@params)
+      each { |k, v| ENV[k] = v }
+    end
+
+    # Restore to original ENV
+    def unload!
+      ENV.replace(@_original_env)
     end
 
     private
 
+    def stash_current_env!
+      @_original_env ||= ENV.to_h.dup.freeze
+    end
+
     def format_env(params)
       params.map{|k,v| [k.upcase, v]}.to_h
+    end
+
+    def validate_params!(params)
+      unless params.is_a?(Hash)
+        raise ArgumentError.new("`params` must be a hash")
+      end
     end
   end
 end

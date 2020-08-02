@@ -22,7 +22,7 @@ RSpec.describe Chambermaid::Environment do
   context "#params" do
     it "has a params hash" do
       env = Chambermaid::Environment.new({ "a" => "b" })
-      expect(env.params).to eq({ "A" => "b" })
+      expect(env).to eq({ "A" => "b" })
     end
   end
 
@@ -73,6 +73,22 @@ RSpec.describe Chambermaid::Environment do
       ENV["A"] = "not b"
       @env.overload!
       expect(ENV["A"]).to eq("b")
+    end
+  end
+
+  context "#unload!" do
+    before :each do
+      stub_const("ENV", { "ORIGINAL" => "ENV" })
+      @env = Chambermaid::Environment.new({ "a" => "b" })
+    end
+
+    it "unloads injected params from ENV" do
+      @env.load!
+      expect(ENV["ORIGINAL"]).to eq("ENV")
+      expect(ENV["A"]).to eq("b")
+      @env.unload!
+      expect(ENV["ORIGINAL"]).to eq("ENV")
+      expect(ENV["A"]).to eq(nil)
     end
   end
 end

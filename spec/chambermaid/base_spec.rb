@@ -96,14 +96,12 @@ RSpec.describe Chambermaid::Base do
         end
       end
     end
-
-    # context "behavior" do
-    #   it "should set @namespaces to empty array if nil" do
-    #     allow(Chambermaid::Namespace).to receive(:new)
-    #     allow_any_instance_of(Chambermaid::Namespace).to receive(:load_env!).and_return_true
-    #     Chambermaid::Base.add_namespace("/some/namespace")
-    #     expect(dblinstance_variable_get(:@namespaces)).to be(["val"])
-    #   end
-    # end
   end
+
+  # context ".load!" do
+  #   it "should load each namespace" do
+  #     expect(Chambermaid::Base.instance_variable_get(:@namespaces)).to receive(:each).with(&:load!)
+  #     Chambermaid::Base.load!
+  #   end
+  # end
 end
