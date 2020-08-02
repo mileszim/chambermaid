@@ -1,4 +1,4 @@
-# Chambermaid
+# Chambermaid [![Gem Version](https://badge.fury.io/rb/chambermaid.svg)](https://badge.fury.io/rb/chambermaid) [![Build Status](https://travis-ci.com/mileszim/chambermaid.svg?branch=master)](https://travis-ci.com/mileszim/chambermaid)
 
 Companion RubyGem for [chamber](https://github.com/segmentio/chamber).
 
