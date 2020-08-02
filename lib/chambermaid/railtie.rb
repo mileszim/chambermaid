@@ -1,6 +1,6 @@
 module Chambermaid
   class Railtie < Rails::Railtie
-    config.before_configuration do
+    config.after_initialize do
       Chambermaid.logger = Rails.logger
       Chambermaid.load!
     end
