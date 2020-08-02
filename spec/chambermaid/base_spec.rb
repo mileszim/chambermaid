@@ -98,6 +98,31 @@ RSpec.describe Chambermaid::Base do
     end
   end
 
+  context ".to_dotenv" do
+    before :each do
+      allow_any_instance_of(Chambermaid::ParameterStore).to receive(:client).and_return(
+        Aws::SSM::Client.new(stub_responses: {
+          get_parameters_by_path: {
+            parameters: [
+              {
+                name: "/some/path/var_a",
+                value: "a"
+              },{
+                name: "/some/path/var_b",
+                value: "b"
+              }
+            ]
+          }
+        })
+      )
+    end
+
+    it "should return a dotenv formatted string" do
+      Chambermaid::Base.add_namespace!("/some/path")
+      expect(Chambermaid::Base.to_dotenv).to eq("VAR_A=a\nVAR_B=b\n")
+    end
+  end
+
   context ".logger" do
     it "should have a default Logger instance" do
       expect(Chambermaid::Base.logger).to be_kind_of(Logger)

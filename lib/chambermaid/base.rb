@@ -105,6 +105,13 @@ module Chambermaid
       add_namespace(service)
     end
 
+    # Render loaded params as dotenv compatible string
+    #
+    # @return [String] dotenv compatible string
+    def to_dotenv
+      namespaces.map(&:to_dotenv).reduce(:+)
+    end
+
     # !@attribute [r] logger
     #   @return [Logger]
     def logger

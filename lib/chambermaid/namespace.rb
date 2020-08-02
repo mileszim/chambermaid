@@ -32,6 +32,11 @@ module Chambermaid
       Chambermaid.logger.info("unloaded #{@env.size} params from ENV")
     end
 
+    # @see (Chambermaid::Environment#to_dotenv)
+    def to_dotenv
+      @env.to_dotenv
+    end
+
     private
 
     # Inject into ENV
