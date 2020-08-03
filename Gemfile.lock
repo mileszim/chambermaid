@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chambermaid (0.5.1)
+    chambermaid (0.5.2)
       aws-sdk-ssm (~> 1.85)
 
 GEM

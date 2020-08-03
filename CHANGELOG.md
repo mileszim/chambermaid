@@ -1,3 +1,9 @@
+## [0.5.2](https://github.com/mileszim/chambermaid/compare/v0.5.1...v0.5.2) (2020-08-03)
+
+### Bug Fixes
+
+- **release:** set rubygem api key into ~/.gem/credentials ([7faef58](https://github.com/mileszim/chambermaid/commit/7faef587631284c3bb89c22572b8bce9c31172d0))
+
 ## [0.5.1](https://github.com/mileszim/chambermaid/compare/v0.5.0...v0.5.1) (2020-08-03)
 
 ### Bug Fixes
