@@ -48,8 +48,10 @@ Chambermaid.configure do |config|
   config.add_namespace("/my/important/namespace", overload: true)
 end
 
-# Load after configuration
-Chambermaid.load!
+# If this is standalone ruby (not a Rails environment),
+# call `Chambermaid.load!` after the configuration block
+#
+# Chambermaid.load!
 ```
 
 **Reload SSM into ENV**
@@ -80,6 +82,62 @@ Chambermaid.log_level = :warn
 ```
 
 _Note: Chambermaid.logger is set to Rails.logger automatically if including inside a rails app_
+
+### AWS Authentication
+
+Chambermaid expects your AWS credential configuration to live inside ENV on application load.
+
+> **Note:** `AWS_DEFAULT_REGION` or `AWS_REGION` is **required**
+
+You can use either:
+* `AWS_ACCESS_KEY_ID`
+* `AWS_SECRET_ACCESS_KEY`
+
+or STS grants:
+```bash
+$ aws-vault exec my-user -- bundle exec rails server
+```
+> *See [aws-vault](https://github.com/99designs/aws-vault/blob/master/USAGE.md) docs for more info*
+
+or a metadata endpoint grant:
+* Available in attached Task or EC2 instance. *See [AWS Docs](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-metadata-endpoint.html) for more info.*
+* Through aws-vault: `aws-vault exec -s my-user`
+
+#### IAM Permissions Required
+
+Since this is meant to work out of the box as a complement to [chamber cli](https://github.com/segmentio/chamber), it needs similar IAM permissions.
+
+In this case, however, we can grant read-only to the namespace(s).
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "",
+            "Effect": "Allow",
+            "Action": "ssm:DescribeParameters",
+            "Resource": "*"
+        },
+        {
+            "Sid": "",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParametersByPath",
+                "ssm:GetParameters",
+                "ssm:GetParameter",
+                "kms:Decrypt"
+            ],
+            "Resource": [
+                "arn:aws:ssm:us-east-1:1234567890:parameter/my-chamber-service",
+                "arn:aws:kms:us-east-1:1234567890:key/258574a1-cfce-4530-9e3c-d4b07cd04115"
+            ]
+        }
+    ]
+}
+```
+> **Note:** `Resource` array MUST include the full ARN of the key id used for chamber cli
+> *(Default alias is `parameter_store_key`)*
+
 
 ## Development
 
