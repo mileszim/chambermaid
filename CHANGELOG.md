@@ -1,3 +1,9 @@
+## [0.5.5](https://github.com/mileszim/chambermaid/compare/v0.5.4...v0.5.5) (2020-08-03)
+
+### Documentation
+
+- add links to documentation and more info for rdoc ([3f7ec6d](https://github.com/mileszim/chambermaid/commit/3f7ec6ddb07478ceefef83403c1e5b9de447509a))
+
 ## [0.5.4](https://github.com/mileszim/chambermaid/compare/v0.5.3...v0.5.4) (2020-08-03)
 
 ### Bug Fixes
