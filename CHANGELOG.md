@@ -1,3 +1,9 @@
+## [0.5.4](https://github.com/mileszim/chambermaid/compare/v0.5.3...v0.5.4) (2020-08-03)
+
+### Bug Fixes
+
+- **release:** chmod 0600 ~/.gem/credentials after generating ([ed85d5b](https://github.com/mileszim/chambermaid/commit/ed85d5b1d9b76762bcc50734c806a6e1cd224ad5))
+
 ## [0.5.3](https://github.com/mileszim/chambermaid/compare/v0.5.2...v0.5.3) (2020-08-03)
 
 ### Bug Fixes
