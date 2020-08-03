@@ -17,8 +17,11 @@ jobs:
         id: get-version-number
         with:
           dry-run: true
-          release-rules:
-            '[{ "type": "release", "scope": "major", "release": "major" }]'
+          release-rules: |
+            [
+              { "type": "release", "scope": "major", "release": "major" },
+              { "type": "refactor", "release": "patch" }
+            ]
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: "2.6"
@@ -37,8 +40,11 @@ jobs:
             ./Gemfile.lock
           release-assets: |
             ./pkg/*.gem
-          release-rules:
-            '[{ "type": "release", "scope": "major", "release": "major" }]'
+          release-rules: |
+            [
+              { "type": "release", "scope": "major", "release": "major" },
+              { "type": "refactor", "release": "patch" }
+            ]
       - name: publish to rubygems
         run: |
           mkdir -p ~/.gem

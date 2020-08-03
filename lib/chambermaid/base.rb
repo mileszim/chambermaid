@@ -1,8 +1,5 @@
 require "logger"
-
-require "chambermaid/environment"
 require "chambermaid/namespace"
-require "chambermaid/parameter_store"
 
 module Chambermaid
   module Base

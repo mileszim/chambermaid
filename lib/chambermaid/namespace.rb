@@ -1,3 +1,6 @@
+require "chambermaid/environment"
+require "chambermaid/parameter_store"
+
 module Chambermaid
   # Namespaces each contain a ParameterStore and Environment instance,
   # along with the overload flag
