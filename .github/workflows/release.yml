@@ -1,0 +1,35 @@
+name: release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ridedott/release-me-action@master
+        with:
+          dry-run: true
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: "2.6"
+      - name: Set version.rb and Gemfile.lock
+        run: |
+          printf "module Chambermaid\n  VERSION = \"$NEW_VERSION\"\nend" > lib/chambermaid/version.rb
+          bundle install
+        env:
+          NEW_VERSION: ${{ steps.build_package.outputs.version }}
+      - run: bundle exec rake build
+      - uses: ridedott/release-me-action@master
+        with:
+          commit-assets: |
+            ./lib/chambermaid/version.rb
+            ./Gemfile.lock
+          release-assets: |
+            ./pkg/*.gem
