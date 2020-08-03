@@ -35,3 +35,7 @@ jobs:
             ./Gemfile.lock
           release-assets: |
             ./pkg/*.gem
+      - run: gem push pkg/chambermaid-$NEW_VERSION.gem
+        env:
+          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+          NEW_VERSION: ${{ steps.get-version-number.outputs.version }}
