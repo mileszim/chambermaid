@@ -1,4 +1,9 @@
 module Chambermaid
+  # Environment keeps a set of params available to load into ENV. It also
+  # maintains a copy of ENV at the time of its initialization, in order to
+  # restore it.
+  #
+  # @attr_reader [Hash] params
   class Environment < Hash
     attr_reader :params
 
@@ -35,16 +40,22 @@ module Chambermaid
     end
 
     # Inject into ENV without overwriting duplicates
+    #
+    # @return [Hash]
     def load!
       each { |k, v| ENV[k] ||= v }
     end
 
     # Inject into ENV and overwrite duplicates
+    #
+    # @return [Hash]
     def overload!
       each { |k, v| ENV[k] = v }
     end
 
     # Restore to original ENV
+    #
+    # @return [ENV]
     def unload!
       ENV.replace(@_original_env)
     end

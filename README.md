@@ -4,6 +4,8 @@ Companion RubyGem for [chamber](https://github.com/segmentio/chamber).
 
 Chambermaid injects AWS SSM params into your ENV. Plays nice with other ENV gems like dotenv.
 
+ - [RubyDocs](https://rubydoc.info/gems/chambermaid)
+
 ## Installation
 
 Add this line to your application's Gemfile:

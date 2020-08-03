@@ -16,6 +16,8 @@ Gem::Specification.new do |spec|
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/mileszim/chambermaid"
   spec.metadata["changelog_uri"] = "https://github.com/mileszim/chambermaid/blob/master/CHANGELOG.md"
+  spec.metadata["documentation_uri"] = "https://rubydoc.info/gems/chambermaid"
+  spec.metadata["bug_tracker_uri"] = "https://github.com/mileszim/chambermaid/issues"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
