@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/mileszim/chambermaid/compare/v1.0.0...v1.0.1) (2020-08-03)
+
+### Code Refactoring
+
+- load dependencies specific to each module ([f52aa00](https://github.com/mileszim/chambermaid/commit/f52aa00410f6abc63263403d6180b463eca4c0bf))
+
 # [1.0.0](https://github.com/mileszim/chambermaid/compare/v0.5.5...v1.0.0) (2020-08-03)
 
 ### Documentation
