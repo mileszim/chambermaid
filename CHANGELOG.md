@@ -1,3 +1,13 @@
+# [1.0.0](https://github.com/mileszim/chambermaid/compare/v0.5.5...v1.0.0) (2020-08-03)
+
+### Documentation
+
+- **README:** update README with authentication instructions ([fd2a826](https://github.com/mileszim/chambermaid/commit/fd2a826066a7507ecb97b68a8fbbaad2146da764))
+
+### Other
+
+- **major:** release version 1 ([eb2f11c](https://github.com/mileszim/chambermaid/commit/eb2f11cb7d963c27aba467643d46f52eddce2e7e))
+
 ## [0.5.5](https://github.com/mileszim/chambermaid/compare/v0.5.4...v0.5.5) (2020-08-03)
 
 ### Documentation
